@@ -24,7 +24,33 @@ Alternatively, if `git` is not supported, go to the [GitHub repo for this worksh
 
 ## 2. About the data set
 
-The data set used for this workshop is originally from Watson Analytics and was used on a [Kaggle](https://www.kaggle.com/blastchar/telco-customer-churn) project, it contains information about customer churn for a Telecommunications company. The data is split into three CSV files and are located in the [data](https://github.com/IBM/cloudpakfordata-telco-churn-workshop/tree/master/data/split) directory of this repository.
+The data set used for this workshop is originally from Watson Analytics and was used on a [Kaggle](https://www.kaggle.com/blastchar/telco-customer-churn) project, it contains information about customer churn for a Telecommunications company. In our Jupyter notebook for the Machine Learning exercise we'll use the `WA_Fn-UseC_-Telco-Customer-Churn.csv` file located in the [data/merged](https://github.com/IBM/cloudpakfordata-telco-churn-workshop/tree/master/data/split) directory of this repository. For use in the optional data virtualiztion exercise, the data is split into three CSV files and are located in the [data/split](https://github.com/IBM/cloudpakfordata-telco-churn-workshop/tree/master/data/split) directory.
+
+### **[WA_Fn-UseC_-Telco-Customer-Churn.csv](../../data/merged/WA_Fn-UseC_-Telco-Customer-Churn)**
+
+This file has the following attributes:
+
+* Customer ID
+* Contract *(Month-to-month, one year, two year)*
+* Paperless Billing *(Yes, No)*
+* Payment Method *(Bank transfer, Credit card, Electronic check, Mailed check)*
+* Monthly Charges *($)*
+* Total Charges *($)*
+* Churn *(Yes, No)*
+* Gender *(Male, Female)*
+* Senior Citizen *(1, 0)*
+* Partner *(Yes, No)*
+* Dependents *(Yes, No)*
+* Tenure *(1-100)*
+* Phone Service *(Yes, No)*
+* Multiple Lines *(Yes, No, No phone service)*
+* Internet Service *(DSL, Fiber optic, No)*
+* Online Security *(Yes, No, No internet service)*
+* Online Backup *(Yes, No, No internet service)*
+* Device Protection *(Yes, No, No internet service)*
+* Tech Support *(Yes, No, No internet service)*
+* Streaming TV *(Yes, No, No internet service)*
+* Streaming Movies *(Yes, No, No internet service)*
 
 ### **[billing.csv](../../data/split/billing.csv)**
 
@@ -60,11 +86,15 @@ This file has the following attributes:
 * Streaming TV *(Yes, No, No internet service)*
 * Streaming Movies *(Yes, No, No internet service)*
 
-## 3. (Optional) Seeding our Db2 Warehouse database
+## 3. Seeding our Db2 Warehouse database
 
 We'll need a place to store our data. For this workshop we've opted to use Db2 Warehouse on our local Cloud Pak for Data cluster. Note that CP4D can work with any Database witha JDBC connector, so this is only one of many choices.
 
-## Load Data into Local DB2 Warehouse
+## Examine or Load Data into Local DB2 Warehouse
+
+The data you will be using will have already been loaded into the DB2 Warehouse DB. We'll also show how the data was loaded, and you may wish to load a new table.
+
+Click the (☰) hamburger menu in the upper left corner and choose `Collect` -> `My data`:
 
 These instructions are for loading the data into the local CP4D version of DB2 Warehouse. They will be similar for the IBM Cloud version.
 
@@ -76,6 +106,18 @@ Go to the *Databases* tab, click on the 3 vertial lines on the *DB2 Warehouse* t
 
 ![Open Service DB2 Warehouse](../.gitbook/assets/images/dv/userOpenDB2Warehouse.png)
 
+Under `Menu` choose `Explore` -> `Tables`:
+
+![Menu Explore Data](../.gitbook/assets/images/dv/DB2ExploreData.png)
+
+Click the `NULLIDRA` box and the existing tables will show up. You can click `TELCO-CHURN` and then the 3 (...) dots to see some info about the table:
+
+![DB2 examine NULLIDRA schema tables](../.gitbook/assets/images/dv/NULLIDRAschemaAndTables.png)
+
+### Load your own data
+
+If you wish to load additional data into a table, you may. Here are the instructions used by the admin to load the existing table.
+
 Under `Menu` choose `Load` and `Load Data`:
 
 ![Menu Load Data](../.gitbook/assets/images/dv/DB2LoadData.png)
@@ -84,19 +126,17 @@ Choose `Browse files`:
 
 ![DB2 browse files](../.gitbook/assets/images/dv/DB2browseFiles.png)
 
-Navigate to where you cloned this repository, then to `data/split/` and choose `billing.csv`, then click `Next`.
+Navigate to where you cloned this repository, then to `data/merged/WA_Fn-UseC_-Telco-Customer-Churn.csv` and choose `WA_Fn-UseC_-Telco-Customer-Churn.csv`, then click `Next`.
 
-![DB2 navigate to billing.csv](../.gitbook/assets/images/dv/navigateToBilling.png)
+![DB2 navigate to WA_Fn-UseC_-Telco-Customer-Churn.csv](../.gitbook/assets/images/dv/navigateToTelcoChurn.png)
 
-Choose Schema `NULLIDRA` and click `+ New table`. Under "New Table Name" type "BILLING" and click `Create`, then `Next`.
+Choose Schema `NULLIDRA` and click `+ New table`. Under "New Table Name" type "TELCO-CHURN" and click `Create`, then `Next`.
 
 ![DB2 choose schema and create table](../.gitbook/assets/images/dv/DB2schemaAndTableCreate.png)
 
 Accept the defaults and click `Next`. Click `Begin Load`.
 
 ![DB2 load final](../.gitbook/assets/images/dv/DB2loadFinal.png)
-
-Repeat for the `products.csv` file, naming the table `PRODUCTS` and the `customer-service.csv` file, naming the table `CUSTOMERS`.
 
 ### Examine connection information
 

@@ -2,31 +2,20 @@
 
 This section is broken up into the following steps:
 
-1. [Add a new Data Source connection](#1-add-a-new-data-source-connection)
-1. [Assign virtualized data to your project](#2-assign-virtualized-data)
+1. [Virtualize data from multiple source](#2-virtualize-data)
 1. [Use Data Refinery to visualize and clean data](#3-use-data-refinery-to-visualize-and-clean-data)
 
-## 1. Add a new Data Source connection
+###  Examine the Data Source connection
 
-For Cloud Pak for Data to read our Db2 Warehouse data we need to add a new *Data Source* to Cloud Pak for Data. This requires inputting the usual JDBC details.
-
-To add a new data source, go to the (☰) menu and click on the *Connections* option.
+An admin should have given you access to an instance of DB2 Warehouse, where you have loaded the data in the *Pre-work*.
+You can see this connection and any others, as well as adding a new connection, by going to the (☰) hamburger menu and clicking `Connections`:
 
 ![(☰) Menu -> Collections](../.gitbook/assets/images/connections/cpd-conn-menu.png)
 
-At the overview, click *Add connection*.
 
-![Overview page](../.gitbook/assets/images/connections/conn-1-overview-empty.png)
+![Examine connection](../.gitbook/assets/images/connections/examineConnection.png)
 
-Start by giving your new *Connection* a name and select *Db2 Warehouse on Cloud* as your connection type. More fields should apper. Fill the new fields with the same credentials for your own Db2 Warehouse connection from the previous section (or ask your instructor for shared credentials). Click `Test Connection` and, after that succeeds, click `Add`.
-
-![Add a Db2 Warehouse on Cloud connection](../.gitbook/assets/images/connections/conn-2-details.png)
-
-The new connection will be listed in the overview.
-
-![Connection has been added!](../.gitbook/assets/images/connections/conn-3-overview-db2.png)
-
-## 2. Assign virtualized data
+## 2. (Optional) Virtualize data
 
 > **IMPORTANT**: A note to the instructors of this workshop. At this point go to the [Admin Guide](../admin-guide/README.md#virtualize-db2-data-with-data-virtualization) and follow the `Virtualize Db2 data with Data Virtualization` section.
 

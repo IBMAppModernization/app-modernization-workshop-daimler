@@ -1,17 +1,17 @@
-# Summary
+## Summary
 
 ### Getting Started
 
-* [Pre-work](/pre-work/README.md)
+* [Pre-work](exercise-0/README.md)
 * [Git integration (using GitLab)](gitIntegration/README.md)
 
 ### Telco Workshop
 
-* [Data Connection and Virtualization for Admins](db-connection-and-virtualization/README.md)
+* [Data Connection and Virtualization for Admins](exercise-1/README.md)
 * [Import Data to Project](addData/README.md)
-* [Data Visualization with Data Refinery](data-visualization-and-refinery/README.md)
-* [Machine Learning with Jupyter](machine-learning-in-jupyter-notebook/README.md)
-* [Monitoring models with OpenScale](monitoring-models-with-openscale-gui/README.md)
+* [Data Visualization with Data Refinery](exercise-2/README.md)
+* [Machine Learning with Jupyter](exercise-3/README.md)
+* [Monitoring models with OpenScale](exercise-4/README.md)
 
 
 ### Workshop Resources

@@ -5,9 +5,9 @@
 * [Pre-work](exercise-0/README.md)
 * [Git integration (using GitLab)](gitIntegration/README.md)
 
-### Telco Workshop
+### JavaEE App Modernization Workshop
 
-* [Data Connection and Virtualization for Admins](exercise-1/README.md)
+* [Working with IBM Cloud Transformation Advisor](exercise-1/README.md)
 * [Import Data to Project](addData/README.md)
 * [Data Visualization with Data Refinery](exercise-2/README.md)
 * [Machine Learning with Jupyter](exercise-3/README.md)

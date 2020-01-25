@@ -121,73 +121,73 @@ In this part  you'll install the prereqs step by step before installing the Stoc
 
 4.1 Install MariaDB by running the following command. Verify that no errors are displayed by the installation script.
 
-   ```bash
-   ./setupMariaDB.sh
-   ```
+ ```bash
+ ./setupMariaDB.sh
+ ```
 
 4.2 Install Mongo by running the following command. Verify that no errors are displayed by the installation script.
 
-   ```bash
-   ./setupMongo.sh
+ ```bash
+ ./setupMongo.sh
 
-   ```
+ ```
 
 4.3 Create the DNS Proxy and store all the  access information as secrets  for the  external Kafka installation. Verify that no errors are displayed by the script.
 
-   ```bash
-   ./setupKafka.sh
+ ```bash
+ ./setupKafka.sh
 
-   ```
+ ```
 
 4.4 Store all the  access information as secrets for the API Connect proxy to the external  realtime stock quote . Verify that no errors are displayed by the script.
 
-   ```bash
-   ./setupAPIConnect.sh
+ ```bash
+ ./setupAPIConnect.sh
 
-   ```
+ ```
 
 4.5 Store all the  access information as secrets for the  external  Watson Tone Analyzer service . Verify that no errors are displayed by the script.
 
-   ```bash
-   ./setupWatson.sh
+ ```bash
+ ./setupWatson.sh
 
-   ```
+ ```
 
 4.6 Verify your progress so far. Run the following to see the pods you have so far
 
-   ```bash
-   oc get pods
-   ```
+ ```bash
+ oc get pods
+ ```
 
    The output should show pods for MariaDB and Mongo and they both should be running and in the READY state
 
-   ```console
-       NAME              READY     STATUS    RESTARTS   AGE
-     mariadb-1-shzjl   1/1       Running   0          2m
-     mongodb-1-gqpln   1/1       Running   0          2m
-   ```
+ ```console
+     NAME              READY     STATUS    RESTARTS   AGE
+   mariadb-1-shzjl   1/1       Running   0          2m
+   mongodb-1-gqpln   1/1       Running   0          2m
+ ```
 
 4.7 Initialize the MariaDB transactional database with some data. Verify that no errors are displayed by the script.
 
-   ```text
-   ./initDatabase.sh
+ ```bash
+ ./initDatabase.sh
 
-   ```
+ ```
 
 4.8 Next look at your services
 
-   ```bash
-   oc get svc
-   ```
+ ```bash
+ oc get svc
+ ```
 
 4.9 Verify that the output shows services for Mongo, MariaDB and your DNS proxy to Kafka
 
-  ```console
-  NAME              TYPE           CLUSTER-IP      EXTERNAL-IP
-  kafka-dns-proxy   ExternalName   <none>          broker-0-0mqz41lc21pr467x.kafka.svc01.us-south.eventstreams.cloud.ibm.com
-  mariadb           ClusterIP      172.30.103.15   <none>
-  mongodb           ClusterIP      172.30.235.11   <none>
-  ```
+```console
+NAME              TYPE           CLUSTER-IP      EXTERNAL-IP
+kafka-dns-proxy   ExternalName   <none>          broker-0-0mqz41lc21pr467x.kafka.svc01.us-south.eventstreams.cloud.ibm.com
+mariadb           ClusterIP      172.30.103.15   <none>
+mongodb           ClusterIP      172.30.235.11   <none>
+```
 
 ## Step 5: Install the StockTrader app
 
@@ -195,50 +195,50 @@ In this part  you'll install all the Stock Trader microservices using a template
 
 5.1 Go back to the top level folder of the  cloned repo
 
-   ```bash
-   cd ..
-   ```
+ ```bash
+ cd ..
+ ```
 
 5.2 Install the microservices chart. Verify that no errors are displayed
 
-   ```bash
-   oc process -f templates/stock-trader.yaml | oc create -f -
-   ```
+ ```bash
+ oc process -f templates/stock-trader.yaml | oc create -f -
+ ```
 
 5.3 Verify that all the pods are running and are in the READY state. Note you may have to run this command multiple times before all the pods become READY.
 
-   ```bash
-   oc get pods
-   ```
+ ```bash
+ oc get pods
+ ```
 
 5.4 Keep running the command  until the output looks something like this:
 
-   ```console
-   NAME                             READY     STATUS    RESTARTS   AGE
-   event-streams-consumer-1-455pj   1/1       Running   0          2m
-   mariadb-1-shzjl                  1/1       Running   0          2d
-   mongodb-1-gqpln                  1/1       Running   0          2d
-   portfolio-1-vkxnp                1/1       Running   0          2m
-   stockquote-1-zck9n               1/1       Running   0          2m
-   trade-history-1-5pngp            1/1       Running   0          2m
-   tradr-1-qdps9                    1/1       Running   0          2m
-   ```
+ ```console
+ NAME                             READY     STATUS    RESTARTS   AGE
+ event-streams-consumer-1-455pj   1/1       Running   0          2m
+ mariadb-1-shzjl                  1/1       Running   0          2d
+ mongodb-1-gqpln                  1/1       Running   0          2d
+ portfolio-1-vkxnp                1/1       Running   0          2m
+ stockquote-1-zck9n               1/1       Running   0          2m
+ trade-history-1-5pngp            1/1       Running   0          2m
+ tradr-1-qdps9                    1/1       Running   0          2m
+ ```
 
 5.5 The app uses OpenShift routes to provide access outside of the cluster. Use the following command to get the external hostnames you'll need to access Stock Trader.
 
-   ```bash
-   oc  get routes
-   ```
+ ```bash
+ oc  get routes
+ ```
 
 5.6 Verify the output looks something like the following. The value in the  HOST/PORT column is the common hostname used for all the  microservices. The value in the PATH column is the unique path for each microservice.
 
-   ```console
-   NAME            HOST/PORT                                                     PATH             SERVICES
-   portfolio       stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /portfolio       portfolio
-   stockquote      stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /stock-quote     stockquote
-   trade-history   stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /trade-history   trade-history
-   tradr           stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /tradr           tradr
-   ```
+ ```console
+ NAME            HOST/PORT                                                     PATH             SERVICES
+ portfolio       stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /portfolio       portfolio
+ stockquote      stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /stock-quote     stockquote
+ trade-history   stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /trade-history   trade-history
+ tradr           stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /tradr           tradr
+ ```
 
 In this example the URL for the **tradr** UI is http://stocktrader-microservices.apps.ocp.kubernetes-workshops.com/tradr (the common hostname plus the PATH for **tradr**).
 
@@ -252,10 +252,10 @@ In this part you'll verify that the various microservices are working as designe
 
 6.2 Log in with the following credentials (note these are the only values that will work)
 
-   ```text
-   username: stock
-   password: trader
-   ```
+ ```text
+ username: stock
+ password: trader
+ ```
 
 ![Dashboard](../.gitbook/assets/images/microservices/ss2.png)
 
@@ -287,16 +287,16 @@ Free up resources for subsequent labs by deleting the Stock Trader app.
 
 7.1 Run the following commands to cleanup (note: you can copy all the commands at once and post then into you command window)
 
-   ```bash
-   cd scripts
-   oc delete dc,svc,routes --selector app=stock-trader
-   ./cleanupWatson.sh
-   ./cleanupAPIConnect.sh
-   ./cleanupKafka.sh
-   ./cleanupMongo.sh
-   ./cleanupMariaDB.sh
-   cd -
-   ```
+```
+ cd scripts
+ oc delete dc,svc,routes --selector app=stock-trader
+ ./cleanupWatson.sh
+ ./cleanupAPIConnect.sh
+ ./cleanupKafka.sh
+ ./cleanupMongo.sh
+ ./cleanupMariaDB.sh
+ cd -
+```
 
 ## Summary
 

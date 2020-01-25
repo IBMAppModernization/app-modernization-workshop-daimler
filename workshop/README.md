@@ -1,67 +1,46 @@
-## Analyzing Telco Customer Churn with Cloud Pak for Data on OpenShift
+## Application Modernization Code Camp
 
-Welcome to our workshop! In this workshop we'll be using the Cloud Pak for Data platform to Collect Data, Organize Data, Analyze Data, and Infuse AI into our applications. The goals of this workshop are:
+Welcome to our workshop! In this workshop you will gain practical skills about application modernization & migration tools and approaches including potential target runtimes combined with the required knowledge around 12-factor apps, Microservices as well as Kubernetes and Docker environments all running on [IBM Cloud Pak for Applications](https://www.ibm.com/cloud/cloud-pak-for-applications/get-started) powered by [OpenShift 4](https://blog.openshift.com/introducing-red-hat-openshift-4/).
 
-* Collect and virtualize data
-* Visualize data with Data Refinery
-* Create and deploy a machine learning model
-* Monitor the model
-* Create a Python app to use the model
-
-### About this workshop
 
 The introductory page of the workshop is broken down into the following sections:
 
 * [Agenda](#agenda)
-* [Compatability](#compatability)
-* [About Cloud Pak for Data](#about-cloud-pak-for-data)
+* [Compatibility](#compatibility)
 * [Credits](#credits)
 
 ## Agenda
 
 |   |   |
 | - | - |
-| [Exercise 0: Pre-work](pre-work/README.md) | Creating a project, downloading the data set, seeding a database |
-| [Exercise 1: Data Connection and Virtualization for Admins](db-connection-and-virtualization/README.md) | Creating a new connection, virtualizing the data, importing the data into the project |
-| [Exercise 2: Data Visualization with Data Refinery](data-visualization-and-refinery/README.md) | Refining the data, vizualizing and profiling the data |
-| [Exercise 3: Machine Learning with Jupyter](machine-learning-in-jupyter-notebook/README.md) | Building a model with Spark, deploying the model with Watson Maching Learning, testing the model with a Python Flask app |
-| [Exercise 4: Monitoring models with OpenScale](monitoring-models-with-openscale-gui/README.md) | Monitor the model with Watson OpenScale |
+| Lecture | Introduction |
+| Lecture | Docker & Kubernetes Overview & Demo |
+| Lecture | Microservices – Principles, Patterns and Implementation |
+| Pre-work | [Verifying access to WeTTy, OpenShift 4 and IBM Cloud Transformation Advisor](pre-work/README.md)  |
+| Hands on Lab | [Deploy Microservice Application](db-connection-and-virtualization/README.md)
+| Lecture | 12 Factor Apps – Methodology Overview and Common Violations in classic JEE applications |
+| Lecture | Application Modernization & Migration Approaches |
+| Hands on Lab | [Run Transformation Advisor against WebSphere app](exercise-1/README.md) |
+| Lecture | Load Balancing JaveEE Apps in OpenShift |
+|  Hands on Lab | [Load Balancing JEE Apps – HttpSession Replication in Openshift](machine-learning-in-jupyter-notebook/README.md)
 
-## Compatability
+
+## Compatibility
 
 This workshop has been tested on the following platforms:
 
-* **macOS**: Mojave (10.14), Catalina (10.15)
+| Operating System | Browser |
+| - | - |
+| **macOS**: Mojave (10.14) | **Chrome** 79.0.3945.130 |
 
-## About Cloud Pak for Data
 
-Cloud Pak for Data represents an all-in-one platform for all your data needs. Cloud Pak for data tries to eliminate silos between Architect, Data Scientist, Developer, and Data Stewards. Cloud Pak for Data helps to streamline work by creating a pipeline for collecting, organizing, analyzing, and consuming data.
-
-![Cloud Pak for Data pipeline](.gitbook/assets/images/generic/cp4data.png)
-
-### A few other noteworthy mentions
-
-Cloud Pak for Data:
-
-* ... has a [new CP4D 2.5 version](https://www.ibmbigdatahub.com/blog/announcing-cloud-pak-for-data-2-5)
-* ... is installed on Red Hat OpenShift providing an enterprise quality container platform
-* ...you can choose the services that you want to run on Cloud Pak for Data. This means you are running only the services that are important for your line of business.
-* ...you can extend the functionality of IBM Cloud Pak for Data by installing services and by integrating Cloud Pak for Data with other applications.
-* ... added [Services](http://rhea.svl.ibm.com:9081/support/knowledgecenter/SSQNUZ_2.5.0/cpd/svc/services.html) include:
-  * Watson Assistant
-  * Watson OpenScale
-  * R Studio
-  * Data Virtualization
-  * any many more
-* ... can be deployed on any major cloud provider (IBM, AWS, Azure, GCP)
-* ... provides a free 7-day trial -- [Cloud Pak Experience](https://www.ibm.com/cloud/garage/cloud-pak-experiences/)
-
-![Cloud Pak for Data stack](.gitbook/assets/images/generic/cpd-stack.png)
 
 ## Credits
 
-This workshop was primarily written by [Scott D'Angelo](https://github.com/scottdangelo) and [Steve Martinelli](https://github.com/stevemar). Many other IBMers have contributed to help shape, test, and contribute to the workshop.
+This workshop was primarily written by [David Carew](https://developer.ibm.com/profiles/carew) and [John Zaccone](https://developer.ibm.com/profiles/john.zaccone). Many other IBMers have contributed to refine, extend and test the workshop material.
 
-* [Mark Sturdevant](https://github.com/markstur)
-* [Omid Meh](https://github.com/omidmeh)
-* [Samaya Madhavan](https://github.com/samayamadhavan)
+* [Oliver Rodriguez](https://developer.ibm.com/profiles/odrodrig)
+* [Lee Zhang](https://developer.ibm.com/profiles/lijing)
+* [Tim Robinson](https://developer.ibm.com/profiles/timro)
+* [Javier Torres](https://github.com/jrtorres)
+* [Rojan Jose](https://github.com/rojanjose)

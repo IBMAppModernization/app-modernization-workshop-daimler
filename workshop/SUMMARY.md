@@ -4,15 +4,11 @@
 
 * [Pre-work](exercise-0/README.md)
 
-
 ### Hands on Lab Exercises
 
-* [Working with IBM Cloud Transformation Advisor](exercise-1/README.md)
-* [Import Data to Project](addData/README.md)
-* [Data Visualization with Data Refinery](exercise-2/README.md)
-* [Machine Learning with Jupyter](exercise-3/README.md)
-* [Monitoring models with OpenScale](exercise-4/README.md)
-
+* [Deploying and testing the IBM Stock Trader microservices application in OpenShift](exercise-1/README.md)
+* [Working with IBM Cloud Transformation Advisor](exercise-2/README.md)
+* [HTTPSession replication in WebSphere Liberty on OpenShift](exercise-3/README.md)
 
 ### Resources
 

@@ -1,277 +1,135 @@
-# Exercise 3: Machine Learning
+## Lab - HTTPSession replication in WebSphere Liberty on OpenShift
 
-This section is broken up into the following steps:
+WebSphere Liberty has a feature called **sessionCache-1.0** which provides distributed in-memory HttpSession caching. The **sessionCache-1.0** feature builds on top of an existing technology called JCache (JSR 107), which offers a standardized distributed in-memory caching API. However, even though the feature builds on top of JCache, no direct usage of JCache API is necessary in your application, since Liberty handles the session caching in its HttpSession implementation. In fact, if your application is already using HttpSession caching, it can benefit from **sessionCache-1.0 without making any code changes.**
 
-1. [Build a model](#1-build-a-model)
-1. [Deploying the model](#2-deploying-the-model)
-1. [Testing the model](#3-testing-the-model)
-1. [(Optional) Create a Python Flask app that uses the model](#4-optional-create-a-python-flask-app-that-uses-the-model)
+In this lab you'll use these  capabilities  to deploy and test  a small Java EE app on OpenShift. You'll use an Open Source JCache provider called [Infinispan](https://infinispan.org) to provide the implementation of the JCache support that is included in Liberty. Note that any compliant JSR 107 product can be used in this manner with WebSphere Liberty.
 
-## 1. Build a model
+This lab is broken up into the following steps:
 
-For this part of the exercise we're going to build a model with a Jupyter notebook, by importing our data, and creating a machine learning model by using a Random Forest Classifier.
+1. [Logon into the OpenShift Web Console and to the OpenShift CLI](#step-1-login-to-the-openshift-web-console-and-to-the-openshift-cli)
 
-### Import the notebook
+1. [Create a new project for the lab](#step-2-create-a-new-project-for-the-lab)
 
-At the project overview, either click the `+Add to project` button, and choose `Notebook`, or to the right of *Notebooks* click `+ New notebook`:
+1. [Install the sample app and Infinispan server](#step-3-install-the-sample-app-and-infinispan_server)
 
-![Add a new asset](../.gitbook/assets/images/wml/wml-1-add-asset.png)
+1. [Test the sample app](#test-the-sample-app)
 
-On the next panel select the *From URL* tab, give your notebook a name, provide the following URL, and choose the Python 3.6 environment:
+1. [Cleaup](#cleanup)
 
-```bash
-https://raw.githubusercontent.com/IBM/cloudpakfordata-telco-churn-workshop/master/notebooks/TelcoChurnICP4D.ipynb
-```
+1. [Summary](#summary)
 
-> The notebook is hosted in the same repo as [the workshop](https://github.com/IBM/cloudpakfordata-telco-churn-workshop).
->
-> * **Notebook**: [TelcoChurnICP4D.ipynb](https://github.com/IBM/cloudpakfordata-telco-churn-workshop/blob/master/notebooks/TelcoChurnICP4D.ipynb)
-> * **Notebook with output**: [with-output/TelcoChurnICP4DOutput.ipynb](https://github.com/IBM/cloudpakfordata-telco-churn-workshop/blob/master/notebooks/with-output/TelcoChurnICP4DOutput.ipynb)
 
-![Add notebook name and URL](../.gitbook/assets/images/wml/wml-2-add-name-and-url.png)
+### Step 1: Login to the OpenShift Web Console and to the OpenShift CLI
 
-When the Jupyter notebook is loaded and the kernel is ready then we can start executing cells.
+1.1 In your browser go to the URL of  the OpenShift web console given to you by your instructor.
 
-![Notebook loaded](../.gitbook/assets/images/wml/wml-3-notebook-loaded.png)
+   ![Accessing the OpenShift console](../.gitbook/assets/images/generic/openshift-console.png)
 
-### Run the notebook
+1.2 You will then be asked to log in with either `kube:admin` or `dragonslayer-ldap`. Select `dragonslayer-ldap` and log in using the same credentials you used to login to WeTTy.
 
-Spend an minute looking through the sections of the notebook to get an overview. You will run cells individually by highlighting each cell, then either click the `Run` button at the top of the notebook. While the cell is running, an asterisk (`[*]`) will show up to the left of the cell. When that cell has finished executing a sequential number will show up (i.e. `[17]`).
+1.3 From the OpenShift web console click on your username in the upper right and select **Copy Login Command**
 
-#### Install Python packages
+   ![Copy Login Command](../.gitbook/assets/images/session-replication/copy-login-command.png)
 
-Section `1.0 Install required packages` will show the libraries that come pre-installed on Cloud Pak for Data. Note that we'll have to upgrade the installed version of Watson Machine Learning Python Client. This workshop uses [`pyspark`](https://spark.apache.org/docs/latest/api/python/index.html), and [`sklearn`](https://scikit-learn.org/stable/) to build our model.
+1.4 You are prompted to login to the OpenShift console again. Repeat the same login procedure above to login.
 
-#### Add the data set to the notebook
+1.5 Click **Display Token** link.
 
-Section `2.0 Load and Clean data` will load the virtualized data from the previous exercise. Highlight the cell labelled `# Place cursor ...` by clicking on it. Click on the *10/01* button to select a specific data set. Choose The *Remote* tab, and pick the virtualized data set that has all three joined tables (i.e. `User999.billing+products+customers`), and opt to insert the data as a *Pandas DataFrame*.
+1.6 Copy the contents in the field **Log in with this token** to the clipboard. It provides a valid login command with a token.
 
-![Add the data as a Pandas DataFrame](../.gitbook/assets/images/wml/wml-4-add-dataframe.png)
+1.7 If prompted with `Use insecure connections? (y/n):`, enter **y**.
 
-By adding data a block of code will be added to the notebook. The code will automatically load that data set and create a Pandas DataFrame.
+1.8 Paste the login command in a terminal window and run it (Note: leave the web console browser tab open as you'll need it later on in the lab)
 
-![Generated code to handle Pandas DataFrame](../.gitbook/assets/images/wml/wml-5-generated-code-dataframe.png)
+### Step 2: Create a new project for the lab
 
-> **IMPORTANT**: Don't forget to update the next cell `df = df1` with the variable from the generated code.
+2.1 Set an environment variable for your *studentid* based on your user identifier from the instructor (e.g. **user001**)
 
-Continue to run the remaining cells in the section to clean the data.
+    ```bash
+    export STUDENTID=userNNN
+    ```
+2.2 Create a new OpenShift project for this lab
 
-#### Create the model
+   ```bash
+   oc new-project srpl-$STUDENTID
+   ```
 
-Section `3.0 Create a model` will split the data into training and test data, and create a model using the Random Forest Classifier algorithm.
+### Step 3: Install the sample app and Infinispan server
 
-![Building the pipeline and model](../.gitbook/assets/images/wml/wml-6-buid-pipeline-and-model.png)
+3.1  From the client terminal window run the following command to install the Infinispan server
 
-Continue to run the remaining cells in the section to build the model.
+   ```bash
+   oc new-app --docker-image=infinispan/server --name=infinispan-server -e USER="sampleUser" -e PASS="samplePassword"
+   ```
 
-#### Save the model
+3.2 From the client terminal window run the following command to install the sample app
 
-Section `4.0 Save the model` will save the model to your project. Update the `MODEL_NAME` variable to something unique and easisly identifiable.
+   ```bash
+   oc new-app --docker-image=clouddragons/simple-http-session-app --name=simple-http-session-app \
+   -e INFINISPAN_HOST="infinispan-server" -e INFINISPAN_USER="sampleUser" \
+   -e INFINISPAN_PASSWORD="samplePassword"
+   ```
+3.3 From the client terminal window run the following command to expose the endpoint of the sample app by creating a route
 
-```python
-MODEL_NAME = "user123 customer churn model"
-```
+   ```bash
+   oc expose svc/simple-http-session-app
+   ```
 
-Continue to run the remaining cells in the section to save the model to Cloud Pak for Data. We'll be able to test it out with the Cloud Pak for Data tools in just a few minutes!
+3.4 From the client terminal window run the following command to scale up the sample app to 2 replicas
 
-We've successfully built and deployed a machine learning model. Congratulations!
+   ```bash
+   oc scale --replicas=2 dc simple-http-session-app
+   ```   
 
-## 2. Deploy the model
+3.5 In your Web console browser tab make sure you've selected  the **Developer** tab (top left), the correct project is selected and  you're looking at the  **Topology**.
 
-Navigate to the left-hand (☰) hamburger menu and choose `Analyze` -> `Analytics deployments`:
+   ![View topology](../.gitbook/assets/images/session-replication/app-topology.png)
 
-![Analytics Analyze deployments](../.gitbook/assets/images/wml/AnalyzeAnalyticsDeployments.png)
+3.6 Wait for the icons for both deployments (infinispan server and sample app) to have a dark blue circle indicating that they're in the **READY** state
 
-Choose the existing space you setup previously.
+3.7 Click on the icon to launch the  sample app
 
-In your space, select the model name that you just built in the notebook and click the 3 dots under `Actions`, and choose `Deploy`:
+   ![Launch app](../.gitbook/assets/images/session-replication/launch-app.png)
 
-![Actions Deploy model](../.gitbook/assets/images/wml/ActionsDeployModel.png)
+### Step 4: Test the sample app
 
-On the next screen, choose `Online` for the *Deployment Type*, give the Deployment a name and optional description and click `Create`:
+When you bring up the app in a new browser session the banner on the web page will say  **Hello stranger** and a  new HTTPSession object is created and is replicated to all the pods.  When the app encounters an existing HTTPSession object the banner message will change to **Welcome back friend**.  
 
-![Online Deployment Create](../.gitbook/assets/images/wml/OnlineDeploymentCreate.png)
+4.1 When the app appears in your browser verify that the banner says  **Hello stranger**
 
-Once the status shows as *Deployed* , you can click on the deployment name to begin testing:
+   ![Running app](../.gitbook/assets/images/session-replication/new-session.png)
 
-![Status Deployed](../.gitbook/assets/images/wml/StatusDeployed.png)
+4.2 Keep refreshing the URL and verify that the POD IP address stays the same. This is because the default behavior of the route is to return to the pod where the session was created (ie sticky sessions).
 
-## 3. Testing the model
+4.3 From the client terminal window run the following command to disable sticky sessions
 
-Cloud Pak for Data offers tools to quickly test out Watson Machine Learning models. We begin with the built-in tooling.
-
-### Test the saved model with built-in tooling
-
-Click on the *Test* tab and paste the following into the *Enter input data* cell:
-
-```json
-{
-   "input_data":[
-      {
-         "fields":[
-            "gender",
-            "SeniorCitizen",
-            "Partner",
-            "Dependents",
-            "tenure",
-            "PhoneService",
-            "MultipleLines",
-            "InternetService",
-            "OnlineSecurity",
-            "OnlineBackup",
-            "DeviceProtection",
-            "TechSupport",
-            "StreamingTV",
-            "StreamingMovies",
-            "Contract",
-            "PaperlessBilling",
-            "PaymentMethod",
-            "MonthlyCharges",
-            "TotalCharges"
-         ],
-         "values":[
-            [
-               "Female",
-               0,
-               "No",
-               "No",
-               1,
-               "No",
-               "No phone service",
-               "DSL",
-               "No",
-               "No",
-               "No",
-               "No",
-               "No",
-               "No",
-               "Month-to-month",
-               "No",
-               "Bank transfer (automatic)",
-               25.25,
-               25.25
-            ]
-         ]
-      }
-   ]
-}
-```
-
-Click `Predict` and the model will be called with the input data. The results will display in the *Result* window. Scroll down to the bottom (Line #114) to see either a "Yes" or a "No" for Churn:
-
-![Testing the deployed model](../.gitbook/assets/images/wml/TestingDeployedModel.png)
-
-### Test the deployed model with cURL
-
-In a terminal window, run the following to get a token to access the API. Use your CP4D cluster `username` and `password`:
-
-```bash
-curl -k -X GET https://<cluster-url>/v1/preauth/validateAuth -u <username>:<password>
-```
-
-A json string will be returned with a value for "accessToken":
+   ```bash
+   oc annotate route  simple-http-session-app haproxy.router.openshift.io/disable_cookies=true
+   ```
 
-```json
-{"username":"scottda","role":"Admin","permissions":["access_catalog","administrator","manage_catalog","can_provision"],"sub":"scottda","iss":"KNOXSSO","aud":"DSX","uid":"1000331002","authenticator":"default","accessToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNjb3R0ZGEiLCJyb2xlIjoiQWRtaW4iLCJwZXJtaXNzaW9ucyI6WyJhY2Nlc3NfY2F0YWxvZyIsImFkbWluaXN0cmF0b3IiLCJtYW5hZ2VfY2F0YWxvZyIsImNhbl9wcm92aXNpb24iXSwic3ViIjoic2NvdHRkYSIsImlzcyI6IktOT1hTU08iLCJhdWQiOiJEU1giLCJ1aWQiOiIxMDAwMzMxMDAyIiwiYXV0aGVudGljYXRvciI6ImRlZmF1bHQiLCJpYXQiOjE1NzM3NjM4NzYsImV4cCI6MTU3MzgwNzA3Nn0.vs90XYeKmLe0Efi5_3QV8F9UK1tjZmYIqmyCX575I7HY1QoH4DBhon2fa4cSzWLOM7OQ5Xm32hNUpxPH3xIi1PcxAntP9jBuM8Sue6JU4grTnphkmToSlN5jZvJOSa4RqqhjzgNKFoiqfl4D0t1X6uofwXgYmZESP3tla4f4dbhVz86RZ8ad1gS1_UNI-w8dfdmr-Q6e3UMDUaahh8JaAEiSZ_o1VTMdVPMWnRdD1_F0YnDPkdttwBFYcM9iSXHFt3gyJDCLLPdJkoyZFUa40iRB8Xf5-iA1sxGCkhK-NVHh-VTS2XmKAA0UYPGYXmouCTOUQHdGq2WXF7PkWQK0EA","_messageCode_":"success","message":"success"}
-```
+4.4 In your browser, keep refreshing the  app URL and verify that the POD IP address changes and the current state of the  session data is maintained and used by all pods (i.e. the banner should say **Welcome back friend**  and the access count should keep incrementing). Keep this browser tab open as you'll need it for further testing.
 
-Export this "accessToken" in the terminal window as `WML_AUTH_TOKEN`. Get the `URL` from the *API reference* by copying the `Endpoint`, and export it as `URL`:
+   ![Session state shared](../.gitbook/assets/images/session-replication/session-established.png)
 
-![Model Deployment Endpoint](../.gitbook/assets/images/wml/ModelDeploymentEndpoint.png)
+4.5 Next you'll verify that if you increase the number of replicas the new replicas will automatically access the shared session state. From your terminal run the following command
 
-```bash
-export WML_AUTH_TOKEN=<value-of-access-token>
-export URL=https://blahblahblah.com
-```
+   ```bash
+   oc scale --replicas=3 dc simple-http-session-app
+   ```   
 
-Now run this curl command from a terminal window:
+4.6 In your OpenShift Web console browser tab return to   **Topology**. Wait for the icon for the sample app to have a dark blue circle indicating that all pods are in the **READY** state
 
-```bash
-curl -k -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header "Authorization: Bearer  $WML_AUTH_TOKEN" -d '{"input_data": [{"fields": ["gender","SeniorCitizen","Partner","Dependents","tenure","PhoneService","MultipleLines","InternetService","OnlineSecurity","OnlineBackup","DeviceProtection","TechSupport","StreamingTV","StreamingMovies","Contract","PaperlessBilling","PaymentMethod","MonthlyCharges","TotalCharges"],"values": [["Female",0,"No","No",1,"No","No phone service","DSL","No","No","No","No","No","No","Month-to-month","No","Bank transfer (automatic)",25.25,25.25]]}]}' $URL
-```
-A json string will be returned with the response, including a "Yes" of "No" at the end indicating the prediction of if the customer will churn or not.
+4.7 Go back to the browser tab where you had the **simple-session** app running and keep refreshing the page. Verify that the 3rd pod is now being accessed and that the access count is never reset to 0.
 
-## 4. (Optional) Create a Python Flask app that uses the model
+## Cleanup
 
-You can also access the web service directly through the REST API. This allows you to use your model for inference in any of your apps. For this workshop we'll be using a Python Flask application to collect information, score it against the model, and show the results.
+Run the following commands to cleanup (note: you can copy all the commands at once and post them into your command window)
 
-### Install dependencies
+   ```bash
+   oc delete svc,dc,route,is simple-http-session-app
+   oc delete svc,dc,is infinispan-server
+   oc delete is open-liberty
+   ```
 
-The general recommendation for Python development is to use a virtual environment ([`venv`](https://docs.python.org/3/tutorial/venv.html)). To install and initialize a virtual environment, use the `venv` module on Python 3 (you install the virtualenv library for Python 2.7):
-
-In a terminal go to the cloned repo directory.
-
-```bash
-git clone https://github.com/IBM/cloudpakfordata-telco-churn-workshop
-cd cloudpakfordata-telco-churn-workshop
-```
-
-Initialize a virtual environment with [`venv`](https://docs.python.org/3/tutorial/venv.html).
-
-```bash
-# Create the virtual environment using Python. Use one of the two commands depending on your Python version.
-# Note, it may be named python3 on your system.
-python -m venv venv       # Python 3.X
-virtualenv venv           # Python 2.X
-
-# Source the virtual environment. Use one of the two commands depending on your OS.
-source venv/bin/activate  # Mac or Linux
-./venv/Scripts/activate   # Windows PowerShell
-```
-
-> **TIP** To terminate the virtual environment use the `deactivate` command.
-
-Finally, install the Python requirements.
-
-```bash
-cd flaskapp
-pip install -r requirements.txt
-```
-
-### Update environment variables
-
-It's best practice to store configurable information as environment variables, instead of hard-coding any important information. To reference our model and supply an API key, we'll pass these values in via a file that is read, the key-value pairs in this files are stored as environment variables.
-
-Copy the `env.sample` file to `.env`.
-
-```bash
-cp env.sample .env
-```
-
-Edit `.env` to reference the `URL` and `TOKEN`.
-
-* `URL` is your web service URL for scoring.
-* `TOKEN` is your deployment access token.
-
-```bash
-# Required: Provide your web service URL for scoring.
-# E.g., URL=https://9.10.222.3:31843/dmodel/v1/project/pyscript/tag/score
-URL=
-
-# Required: Provide your web service deployment access token.
-#           This TOKEN should start with "Bearer ".
-# E.g., TOKEN=Bearer abCdwFg.fgH1r2... (and so on, tokens are long).
-TOKEN=
-```
-
-### Start the application
-
-Start the flask server by running the following command:
-
-```bash
-python telcochurn.py
-```
-
-Use your browser to go to [http://0.0.0.0:5000](http://0.0.0.0:5000) and try it out.
-
-> **TIP**: Use `ctrl`+`c` to stop the Flask server when you are done.
-
-### Sample output
-
-The user inputs various values
-
-![Input a bunch of data...](../.gitbook/assets/images/generic/input.png)
-
-The churn percentage is returned:
-
-![Get the churn percentage as a result](../.gitbook/assets/images/generic/score.png)
+## Summary
+Congratulations. You used the **session-cache** feature in WebSphere Liberty along with the Open Source **Infinispan Data Grid** to demonstrate HttpSession replication in OpenShift. This allowed you to  deploy  a stateful application in a stateless manner (i.e each application pod can be deleted or replaced at anytime without losing application state).

@@ -3,7 +3,7 @@
 This section is broken up into the following steps:
 
 1. [Accessing WeTTy](#1-accessing-wetty)
-1. [Accessing the OpenShift console](#2-accessing-the-openshift-4-console)
+1. [Accessing the OpenShift 4 console](#2-accessing-the-openshift-4-console)
 1. [Accessing IBM Cloud Transformation Advisor](#3-accessing-ibm-cloud-transformation-advisor)
 
 

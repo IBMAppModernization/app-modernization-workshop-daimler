@@ -74,9 +74,9 @@ export STUDENTID=userNNN
 ```
 2.2 Create a new OpenShift project for this lab
 
-   ```bash
-    oc new-project mcsvcs-$STUDENTID
-   ```
+```
+oc new-project mcsvcs-$STUDENTID
+```
 
 ## Step 3: Prepare for installation
 
@@ -91,17 +91,17 @@ cd stocktrader-openshift4
 
 3.2 Retrieve credentials and other details needed to create secrets and/or ConfigMaps. Ask you instructor for the **SETUPURL** for the command below.
 
-   ```bash
-   # Note you must be in the scripts sub folder or this command will fail
-   cd scripts
+```
+# Note you must be in the scripts sub folder or this command will fail
+cd scripts
 
-   # Your instructor will provide your with values for SETUPURL adn  STUDENID
-   ./setupLab.sh SETUPURL $STUDENTID
-   ```
+# Your instructor will provide your with values for SETUPURL adn  STUDENID
+./setupLab.sh SETUPURL $STUDENTID
+```
 
 3.3 Verify that the output looks something like the following:
 
-   ```console
+``
     Script being run from correct folder
     Validating URL to setup files ...
     Validating student id  ...
@@ -111,7 +111,7 @@ cd stocktrader-openshift4
     Using stocktrader-user001 as Kafka topic name ...
     Updating variables.sh with Kafka topic : stocktrader-user001
     Setup completed successfully
-   ```
+``
 
 3.4 Also verify that there is now a file called **variables.sh** in the current folder
 

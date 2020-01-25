@@ -85,6 +85,7 @@ With **Source Code** selected as your build type you will notice a list of files
 - **Operator resources:** Files needed to deploy an [Operator](https://www.redhat.com/en/blog/introducing-operator-framework-building-apps-kubernetes) to your Kubernetes cluster to manage your application.
 - **Dockerfile:** Docker container build instructions
 
+
    ![Source Code Build Type](../.gitbook/assets/images/ta/sourceCode.png)
 
 If you select **Binary** as your build type, you will then need to provide Application Dependencies including the **Aplication Binary** and the **MySQL driver**. These will then be added to your migration bundle along with the files mentioned above.

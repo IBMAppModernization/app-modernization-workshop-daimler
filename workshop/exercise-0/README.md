@@ -2,142 +2,42 @@
 
 This section is broken up into the following steps:
 
-1. [Clone or download the repo](#1-clone-or-download-the-repo)
-1. [About the data set](#2-about-the-data-set)
-1. [(Optional) Seeding our Db2 Warehouse database](#3-optional-seeding-our-db2-warehouse-database)
-1. [Creating a new Cloud Pak for Data project](#4-creating-a-new-cloud-pak-for-data-project)
+1. [Accessing WeTTy](#1-accessing-wetty)
+1. [Accessing the OpenShift console](#2-accessing-the-openshift-4-console)
+1. [Accessing IBM Cloud Transformation Advisor](#3-accessing-ibm-cloud-transformation-advisor)
 
-## 1. Clone or download the repo
 
-Various parts of this workshop will require the attendee to upload files or run scripts that we've stored in the repository. So let's get that done early on, you'll need [`git`](https://git-scm.com) on your laptop to clone the repository directly, or access to [GitHub.com](https://github.com/) to download the zip file.
+## 1. Accessing WeTTy
 
-Either run the following command:
+Various parts of this workshop will require access to the OpenShift 4 CLI. In order to minimize student laptop setup requirements
+an Ubuntu 18.04 VM has been setup for the use of the students. Access to that VM is provided via [WeTTy](https://github.com/butlerx/wetty) a browser based terminal emulator written entirely in JavaScript.
 
-```bash
-git clone https://github.com/IBM/cloudpakfordata-telco-churn-workshop
-cd cloudpakfordata-telco-churn-workshop
-```
+1.1 Verify that you can access the WeTTy terminal using the URL provided to you by your instructor.
 
-Alternatively, if `git` is not supported, go to the [GitHub repo for this workshop](https://github.com/IBM/cloudpakfordata-telco-churn-workshop) and download the archived version of the workshop and extract it on your laptop.
+   ![Accessing WeTTy](../.gitbook/assets/images/generic/wetty.png)
 
-![download workshop zip](../.gitbook/assets/images/generic/cp4d-telco-workshop-git-zip-download.png)
+1.2 Verify that you can login with the credentials provided to you by your instructors
 
-## 2. About the data set
+   ![Logging in via WeTTy](../.gitbook/assets/images/generic/wetty-login.png)
 
-The data set used for this workshop is originally from Watson Analytics and was used on a [Kaggle](https://www.kaggle.com/blastchar/telco-customer-churn) project, it contains information about customer churn for a Telecommunications company. The data is split into three CSV files and are located in the [data](https://github.com/IBM/cloudpakfordata-telco-churn-workshop/tree/master/data/split) directory of this repository.
 
-### **[billing.csv](../../data/split/billing.csv)**
+## 2. Accessing the OpenShift 4 console
 
-This file has the following attributes:
+Various parts of this workshop will require access to the OpenShift 4 console.
 
-* Customer ID
-* Contract *(Month-to-month, one year, two year)*
-* Paperless Billing *(Yes, No)*
-* Payment Method *(Bank transfer, Credit card, Electronic check, Mailed check)*
-* Monthly Charges *($)*
-* Total Charges *($)*
-* Churn *(Yes, No)*
+2.1 Verify that you can access the OpenShift console using the URL provided to you by your instructors.
 
-### **[customer-service.csv](../../data/split/customer-service.csv)**
+   ![Accessing the OpenShift console](../.gitbook/assets/images/generic/openshift-console.png)
 
-* Customer ID
-* Gender *(Male, Female)*
-* Senior Citizen *(1, 0)*
-* Partner *(Yes, No)*
-* Dependents *(Yes, No)*
-* Tenure *(1-100)*
+2.2 You will then be asked to log in with either `kube:admin` or `dragonslayer-ldap`. Select `dragonslayer-ldap` and log in using the same credentials you used to login to WeTTy.
 
-### **[products.csv](../../data/split/products.csv)**
+   ![Logging in to the OpenShift console](../.gitbook/assets/images/generic/openshift-console-login.png)
 
-* Customer ID
-* Phone Service *(Yes, No)*
-* Multiple Lines *(Yes, No, No phone service)*
-* Internet Service *(DSL, Fiber optic, No)*
-* Online Security *(Yes, No, No internet service)*
-* Online Backup *(Yes, No, No internet service)*
-* Device Protection *(Yes, No, No internet service)*
-* Tech Support *(Yes, No, No internet service)*
-* Streaming TV *(Yes, No, No internet service)*
-* Streaming Movies *(Yes, No, No internet service)*
 
-## 3. (Optional) Seeding our Db2 Warehouse database
+## 3. Accessing IBM Cloud Transformation Advisor
 
-We'll need a place to store our data. For this workshop we've opted to use Db2 Warehouse on our local Cloud Pak for Data cluster. Note that CP4D can work with any Database witha JDBC connector, so this is only one of many choices.
+This workshop will require access to IBM Cloud Transformation Advisor installed on OpenShift 4.
 
-## Load Data into Local DB2 Warehouse
+3.1 Verify that you can access IBM Cloud Transformation Advisor using the URL provided to you by your instructors. If you are presented with the OpenShift 4 console login screen, login as instructed in the previous step.
 
-These instructions are for loading the data into the local CP4D version of DB2 Warehouse. They will be similar for the IBM Cloud version.
-
-Click the (☰) hamburger menu in the upper left corner and choose `Collect` -> `My data`:
-
-![Choose collect -> My data](../.gitbook/assets/images/dv/collectMyData.png)
-
-Go to the *Databases* tab, click on the 3 vertial lines on the *DB2 Warehouse* tile, and click `Open`:
-
-![Open Service DB2 Warehouse](../.gitbook/assets/images/dv/userOpenDB2Warehouse.png)
-
-Under `Menu` choose `Load` and `Load Data`:
-
-![Menu Load Data](../.gitbook/assets/images/dv/DB2LoadData.png)
-
-Choose `Browse files`:
-
-![DB2 browse files](../.gitbook/assets/images/dv/DB2browseFiles.png)
-
-Navigate to where you cloned this repository, then to `data/split/` and choose `billing.csv`, then click `Next`.
-
-![DB2 navigate to billing.csv](../.gitbook/assets/images/dv/navigateToBilling.png)
-
-Choose Schema `NULLIDRA` and click `+ New table`. Under "New Table Name" type "BILLING" and click `Create`, then `Next`.
-
-![DB2 choose schema and create table](../.gitbook/assets/images/dv/DB2schemaAndTableCreate.png)
-
-Accept the defaults and click `Next`. Click `Begin Load`.
-
-![DB2 load final](../.gitbook/assets/images/dv/DB2loadFinal.png)
-
-Repeat for the `products.csv` file, naming the table `PRODUCTS` and the `customer-service.csv` file, naming the table `CUSTOMERS`.
-
-### Examine connection information
-
-You can see connection information by going to *Menu* -> *Connection Information*. Here you can see instructions for various platforms (Linux, Mac, PowerLinux, Windows, zLinux) and the information you need to connect, with the exception of the *password*. The *password* is only available to users with *Admin* privileges:
-
-![DB2 connection info](../.gitbook/assets/images/db2/DB2connectionInformation.png)
-
-## 4. Creating a new Cloud Pak for Data project
-
-At this point of the workshop we will be using Cloud Pak for Data for the remaining steps.
-
-### Log into Cloud Pak for Data
-
-Launch a browser and navigate to your Cloud Pak for Data deployment
-
-> **NOTE** Your instructor will provide a URL and credentials to log into Cloud Pak for Data!
-
-![Cloud Pak for Data login](../.gitbook/assets/images/manage/cpd-login.png)
-
-### Create a new project
-
-Go the (☰) menu and click *Projects*
-
-![(☰) Menu -> Projects](../.gitbook/assets/images/manage/cpd-projects-menu.png)
-
-Click on *New project*
-
-![Start a new project](../.gitbook/assets/images/manage/cpd-new-project.png)
-
-Create a new project, choose `Analytics project`, give it a unique name, and click *OK. Click `Create` on the next screen.
-
-![Pick a name](../.gitbook/assets/images/manage/cpd-new-project-name.png)
-
-## 5 Create a Space for Machine Learning Deployments
-
-Go the (☰) menu and click `Analyze` -> `Analytics deployments`:
-
-![(☰) Menu -> Analytics deployments](../.gitbook/assets/images/manage/ChooseAnalyticsDeployments.png)
-
-Click on `+ New deployment space):
-
-![Add New deployment space](../.gitbook/assets/images/manage/addNewDeploymentSpace.png)
-
-Give your deployment space a name, optional description, then click `Create`. You will use this space later when you deploy a machine learning model.
+   ![Accessing IBM Cloud Transformation Advisor](../.gitbook/assets/images/generic/ibm-cloud-ta.png)

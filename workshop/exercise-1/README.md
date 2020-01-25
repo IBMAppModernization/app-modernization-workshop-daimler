@@ -89,17 +89,19 @@ git clone https://github.com/IBMStockTraderLite/stocktrader-openshift4.git
 cd stocktrader-openshift4
 ```
 
-3.2 Retrieve credentials and other details needed to create secrets and/or ConfigMaps. Ask you instructor for the **SETUPURL** for the command below.
+3.2 Go to the directory required to run the setup script
 
 ```
-# Note you must be in the scripts sub folder or this command will fail
 cd scripts
+```
 
-# Your instructor will provide your with values for SETUPURL adn  STUDENID
+3.3 Retrieve credentials and other details needed to create secrets and/or ConfigMaps. Ask you instructor for the **SETUPURL** for the command below.
+
+```
 ./setupLab.sh SETUPURL $STUDENTID
 ```
 
-3.3 Verify that the output looks something like the following:
+3.4 Verify that the output looks something like the following:
 
 ```
 Script being run from correct folder
@@ -113,7 +115,7 @@ Updating variables.sh with Kafka topic : stocktrader-user001
 Setup completed successfully
 ```
 
-3.4 Also verify that there is now a file called **variables.sh** in the current folder
+3.5 Also verify that there is now a file called **variables.sh** in the current folder
 
 ## Step 4: Install all the prerequisites
 
@@ -161,7 +163,7 @@ In this part  you'll install the prereqs step by step before installing the Stoc
 
    The output should show pods for MariaDB and Mongo and they both should be running and in the READY state
 
- ```console
+ ```
      NAME              READY     STATUS    RESTARTS   AGE
    mariadb-1-shzjl   1/1       Running   0          2m
    mongodb-1-gqpln   1/1       Running   0          2m
@@ -182,7 +184,7 @@ In this part  you'll install the prereqs step by step before installing the Stoc
 
 4.9 Verify that the output shows services for Mongo, MariaDB and your DNS proxy to Kafka
 
-```console
+```
 NAME              TYPE           CLUSTER-IP      EXTERNAL-IP
 kafka-dns-proxy   ExternalName   <none>          broker-0-0mqz41lc21pr467x.kafka.svc01.us-south.eventstreams.cloud.ibm.com
 mariadb           ClusterIP      172.30.103.15   <none>
@@ -213,7 +215,7 @@ In this part  you'll install all the Stock Trader microservices using a template
 
 5.4 Keep running the command  until the output looks something like this:
 
- ```console
+ ```
  NAME                             READY     STATUS    RESTARTS   AGE
  event-streams-consumer-1-455pj   1/1       Running   0          2m
  mariadb-1-shzjl                  1/1       Running   0          2d
@@ -232,7 +234,7 @@ In this part  you'll install all the Stock Trader microservices using a template
 
 5.6 Verify the output looks something like the following. The value in the  HOST/PORT column is the common hostname used for all the  microservices. The value in the PATH column is the unique path for each microservice.
 
- ```console
+ ```
  NAME            HOST/PORT                                                     PATH             SERVICES
  portfolio       stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /portfolio       portfolio
  stockquote      stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /stock-quote     stockquote
@@ -252,22 +254,20 @@ In this part you'll verify that the various microservices are working as designe
 
 6.2 Log in with the following credentials (note these are the only values that will work)
 
- ```text
- username: stock
- password: trader
- ```
+ **username:** `stock`
+ **password:** `trader`
 
-![Dashboard](../.gitbook/assets/images/microservices/ss2.png)
+![Initial page](../.gitbook/assets/images/microservices/ss2.png)
 
 6.3 Click **Add Client** and name the client `Client2`. Click **OK**
 
-![Dashboard](../.gitbook/assets/images/microservices/ss3.png)
+![Add client](../.gitbook/assets/images/microservices/ss3.png)
 
 6.4 Click on the link in the **Name** column to see the  details of Client2
 
 6.5 Do 3 or 4 "Buy" operations with different stock tickers (e.g. STT, T, GOOG, IBM).
 
-![Dashboard](../.gitbook/assets/images/microservices/ss4.png)
+![Execute transactions](../.gitbook/assets/images/microservices/ss4.png)
 
 6.6 Sell part of one of the holdings you just bought and verify that the table is updated appropriately
 

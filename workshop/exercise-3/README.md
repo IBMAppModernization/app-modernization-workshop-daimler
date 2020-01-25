@@ -59,13 +59,15 @@ oc new-project srpl-$STUDENTID
 3.1  From the client terminal window run the following command to install the Infinispan server
 
    ```bash
-oc new-app --docker-image=infinispan/server --name=infinispan-server -e USER="sampleUser" -e PASS="samplePassword"
+oc new-app --docker-image=infinispan/server --name=infinispan-server \
+-e USER="sampleUser" -e PASS="samplePassword"
    ```
 
 3.2 From the client terminal window run the following command to install the sample app
 
    ```bash
-oc new-app --docker-image=clouddragons/simple-http-session-app --name=simple-http-session-app \
+oc new-app --docker-image=clouddragons/simple-http-session-app \
+--name=simple-http-session-app \
 -e INFINISPAN_HOST="infinispan-server" -e INFINISPAN_USER="sampleUser" \
 -e INFINISPAN_PASSWORD="samplePassword"
    ```
@@ -104,7 +106,8 @@ When you bring up the app in a new browser session the banner on the web page wi
 4.3 From the client terminal window run the following command to disable sticky sessions
 
    ```bash
-   oc annotate route  simple-http-session-app haproxy.router.openshift.io/disable_cookies=true
+   oc annotate route simple-http-session-app \
+   haproxy.router.openshift.io/disable_cookies=true
    ```
 
 4.4 In your browser, keep refreshing the  app URL and verify that the POD IP address changes and the current state of the  session data is maintained and used by all pods (i.e. the banner should say **Welcome back friend**  and the access count should keep incrementing). Keep this browser tab open as you'll need it for further testing.

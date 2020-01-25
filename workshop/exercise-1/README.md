@@ -69,9 +69,9 @@ This lab is broken up into the following steps:
 
 2.1 Set an environment variable for your *studentid* based on your user identifier from the instructor (e.g. **user001**)
 
-   ```bash
-   export STUDENTID=userNNN
-   ```
+```bash
+export STUDENTID=userNNN
+```
 2.2 Create a new OpenShift project for this lab
 
    ```bash
@@ -84,7 +84,7 @@ Like a typical  Kubernetes app, Stock Trader use secrets and ConfigMaps to store
 
 3.1 From a terminal window clone the Github repo that has everything needed to deploy the aggregated Stock Trader app.
 
-```text
+```
 git clone https://github.com/IBMStockTraderLite/stocktrader-openshift4.git
 cd stocktrader-openshift4
 ```

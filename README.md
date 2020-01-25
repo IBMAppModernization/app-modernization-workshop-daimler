@@ -1,5 +1,5 @@
-# Cloud Pak for Data Workshop
+# App Modernization Workshop for Daimler
 
-> The workshop is hosted at: [https://cloudpakfordata.gitbook.io/telco-churn-workshop/](https://cloudpakfordata.gitbook.io/telco-churn-workshop/)
+> The workshop is hosted at: [https://cloudpakforapps.gitbook.io/app-mod-daimler/](https://cloudpakforapps.gitbook.io/app-mod-daimler/)
 
-!["cp4data"](workshop/.gitbook/assets/images/generic/cp4data.png)
+![App Modernization Code Camp](workshop/.gitbook/assets/images/generic/workshop-logo.png)

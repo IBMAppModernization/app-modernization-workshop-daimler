@@ -2,7 +2,7 @@
 
 In this lab you will deploy and test the *IBM Stock Trader application* on Red Hat OpenShift.
 
-The *IBM Stock Trader* application is a simple stock trading sample, where you can create various stock portfolios and add shares of stock to each for a commission. It keeps track of each porfolio’s total value and its loyalty level, which affect the commission charged per transaction. It also lets you submit feedback on the application, which can result in earning free (zero commission) trades, based on the tone of the feedback. (Tone is determined by calling the Watson Tone Analyzer).
+The *IBM Stock Trader* application is a simple stock trading sample, written as a set of microservices where you can create various stock portfolios and add shares of stock to each for a commission. It keeps track of each porfolio’s total value and its loyalty level, which affect the commission charged per transaction. It also lets you submit feedback on the application, which can result in earning free (zero commission) trades, based on the tone of the feedback. (Tone is determined by calling the Watson Tone Analyzer).
 
 The architecture of the  app is shown below:
 

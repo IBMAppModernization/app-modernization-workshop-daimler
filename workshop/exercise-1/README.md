@@ -161,12 +161,14 @@ In this part  you'll install the prereqs step by step before installing the Stoc
  oc get pods
  ```
 
-   The output should show pods for MariaDB and Mongo and they both should be running and in the READY state
+   The output should show 4 pods. The 2 deploy pods should have a STATUS of **Completed** and 2 other pods should be running and in the **READY** state.
 
  ```
-     NAME              READY     STATUS    RESTARTS   AGE
-   mariadb-1-shzjl   1/1       Running   0          2m
-   mongodb-1-gqpln   1/1       Running   0          2m
+ NAME               READY   STATUS      RESTARTS   AGE
+ mariadb-1-deploy   0/1     Completed   0          59s
+ mariadb-1-g22s5    1/1     Running     0          50s
+ mongodb-1-8fnvz    1/1     Running     0          38s
+ mongodb-1-deploy   0/1     Completed   0          47s
  ```
 
 4.7 Initialize the MariaDB transactional database with some data. Verify that no errors are displayed by the script.
@@ -201,19 +203,19 @@ In this part  you'll install all the Stock Trader microservices using a template
  cd ..
  ```
 
-5.2 Install the microservices chart. Verify that no errors are displayed
+5.2 Install the microservices via a template. Verify that no errors are displayed
 
  ```bash
  oc process -f templates/stock-trader.yaml | oc create -f -
  ```
 
-5.3 Verify that all the pods are running and are in the READY state. Note you may have to run this command multiple times before all the pods become READY.
+5.3 Verify that all the pods are running and are in the READY state. Note you may have to run this command multiple times before all the pods become **READY**.
 
  ```bash
- oc get pods
+ oc get pods | grep -v deploy
  ```
 
-5.4 Keep running the command  until the output looks something like this:
+5.4 Keep running the command until the output looks something like the following. NOTE: It can take 2 or 3 minutes for all the pods to reach the **READY** state.
 
  ```
  NAME                             READY     STATUS    RESTARTS   AGE
@@ -242,13 +244,17 @@ In this part  you'll install all the Stock Trader microservices using a template
  tradr           stocktrader-microservices.apps.ocp.kubernetes-workshops.com   /tradr           tradr
  ```
 
-In this example the URL for the **tradr** UI is http://stocktrader-microservices.apps.ocp.kubernetes-workshops.com/tradr (the common hostname plus the PATH for **tradr**).
+5.7 Print the fully qualified URL for the **tradr** UI app to the console by running the following command
+
+```
+echo http://`oc get route tradr -o=jsonpath='{.spec.host}'`/tradr
+```
 
 ## Step 6: Test the app
 
 In this part you'll verify that the various microservices are working as designed.
 
-6.1 Bring up the **tradr** web application using the hostname you noted at the end of the  previous  section
+6.1 Bring up the **tradr** web application by copying the URL that was output to the terminal in the previous step  to a new tab in your browser
 
 ![Login page](../.gitbook/assets/images/microservices/ss1.png)
 
@@ -275,11 +281,17 @@ In this part you'll verify that the various microservices are working as designe
 
 ![Feedback](../.gitbook/assets/images/microservices/ss5.png)
 
-6.8 Verify that the data flow of `portfolio->Kafka->event-consumer->trade-history-Mongo` works by querying the **trade-history** service via an endpoint  that makes it do a Mongo query.  Add the path `/trades/Client2` to the  route for the **trade-history** microservice. For example `http://stocktrader-microservices.apps.ocp.kubernetes-workshops.com/trade-history/trades/Client2` for the route used in the example above.
+6.8 Verify that the data flow of `portfolio->Kafka->event-consumer->trade-history-Mongo` works by querying the **trade-history** service via an endpoint  that makes it do a Mongo query. Print the base URL of the **trade-history** service by running the following command in your terminal window
 
-6.9 Enter the URL in another browser tab and verify that the history has captured  all the  trades you did while testing. A partial screen shot of what you should get back is shown below:
+```
+echo http://`oc get route trade-history -o=jsonpath='{.spec.host}'`/trade-history
+```
 
-![Trade History](../.gitbook/assets/images/microservices/ss6.png)
+6.9  Copy the base URL for **trade-history** service to a new browser tab and append the path `/trades/Client2`
+
+6.10 Verify that the history has captured  all the  trades you did while testing. You should get back something similar to the following  screen shot:
+
+![Trade History](../.gitbook/assets/images/microservices/trade-history.png)
 
 ## Step 7: Cleanup
 

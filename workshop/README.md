@@ -1,7 +1,10 @@
 ## Application Modernization Code Camp
 
-Welcome to our workshop! In this workshop you will gain practical skills about application modernization & migration tools and approaches including potential target runtimes combined with the required knowledge around 12-factor apps, Microservices as well as Kubernetes and Docker environments all running on [IBM Cloud Pak for Applications](https://www.ibm.com/cloud/cloud-pak-for-applications/get-started) powered by [OpenShift 4](https://blog.openshift.com/introducing-red-hat-openshift-4/).
+Welcome to our workshop! In this workshop you will gain practical skills about application modernization, migration tools and approaches and potential target runtimes.
 
+The workshop will include coverage of 12-factor apps, Microservices as well as Kubernetes and Docker environments all running on [IBM Cloud Pak for Applications](https://www.ibm.com/cloud/cloud-pak-for-applications/get-started) powered by [OpenShift 4](https://blog.openshift.com/introducing-red-hat-openshift-4/).
+
+   ![Workshop logo](.gitbook/assets/images/generic/workshop-logo.png)
 
 The introductory page of the workshop is broken down into the following sections:
 

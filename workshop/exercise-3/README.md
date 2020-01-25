@@ -46,12 +46,12 @@ This lab is broken up into the following steps:
 2.1 Set an environment variable for your *studentid* based on your user identifier from the instructor (e.g. **user001**)
 
     ```bash
-    export STUDENTID=userNNN
+export STUDENTID=userNNN
     ```
 2.2 Create a new OpenShift project for this lab
 
    ```bash
-   oc new-project srpl-$STUDENTID
+oc new-project srpl-$STUDENTID
    ```
 
 ### Step 3: Install the sample app and Infinispan server
@@ -59,15 +59,15 @@ This lab is broken up into the following steps:
 3.1  From the client terminal window run the following command to install the Infinispan server
 
    ```bash
-   oc new-app --docker-image=infinispan/server --name=infinispan-server -e USER="sampleUser" -e PASS="samplePassword"
+oc new-app --docker-image=infinispan/server --name=infinispan-server -e USER="sampleUser" -e PASS="samplePassword"
    ```
 
 3.2 From the client terminal window run the following command to install the sample app
 
    ```bash
-   oc new-app --docker-image=clouddragons/simple-http-session-app --name=simple-http-session-app \
-   -e INFINISPAN_HOST="infinispan-server" -e INFINISPAN_USER="sampleUser" \
-   -e INFINISPAN_PASSWORD="samplePassword"
+oc new-app --docker-image=clouddragons/simple-http-session-app --name=simple-http-session-app \
+-e INFINISPAN_HOST="infinispan-server" -e INFINISPAN_USER="sampleUser" \
+-e INFINISPAN_PASSWORD="samplePassword"
    ```
 3.3 From the client terminal window run the following command to expose the endpoint of the sample app by creating a route
 

@@ -6,7 +6,7 @@
 
 ### Hands on Lab Exercises
 
-* [Deploying and testing the IBM Stock Trader microservices application in OpenShift](exercise-1/README.md)
+* [Deploying a set of microservices in OpenShift](exercise-1/README.md)
 * [Working with IBM Cloud Transformation Advisor](exercise-2/README.md)
 * [HTTPSession replication in WebSphere Liberty on OpenShift](exercise-3/README.md)
 

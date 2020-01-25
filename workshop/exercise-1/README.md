@@ -84,10 +84,10 @@ Like a typical  Kubernetes app, Stock Trader use secrets and ConfigMaps to store
 
 3.1 From a terminal window clone the Github repo that has everything needed to deploy the aggregated Stock Trader app.
 
-   ```bash
-   git clone https://github.com/IBMStockTraderLite/stocktrader-openshift4.git
-   cd stocktrader-openshift4
-   ```
+```text
+git clone https://github.com/IBMStockTraderLite/stocktrader-openshift4.git
+cd stocktrader-openshift4
+```
 
 3.2 Retrieve credentials and other details needed to create secrets and/or ConfigMaps. Ask you instructor for the **SETUPURL** for the command below.
 

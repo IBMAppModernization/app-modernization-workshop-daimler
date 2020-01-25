@@ -1,4 +1,4 @@
-# Lab - Deploying and testing the IBM Stock Trader sample application in OpenShift
+# Lab - Deploying a set of microservices in OpenShift
 
 In this lab you will deploy and test the *IBM Stock Trader application* on Red Hat OpenShift.
 

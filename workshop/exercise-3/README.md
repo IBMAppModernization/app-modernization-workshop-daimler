@@ -1,4 +1,4 @@
-## Lab - HTTPSession replication in WebSphere Liberty on OpenShift
+# Lab - HTTPSession replication in WebSphere Liberty on OpenShift
 
 WebSphere Liberty has a feature called **sessionCache-1.0** which provides distributed in-memory HttpSession caching. The **sessionCache-1.0** feature builds on top of an existing technology called JCache (JSR 107), which offers a standardized distributed in-memory caching API. However, even though the feature builds on top of JCache, no direct usage of JCache API is necessary in your application, since Liberty handles the session caching in its HttpSession implementation. In fact, if your application is already using HttpSession caching, it can benefit from **sessionCache-1.0 without making any code changes.**
 

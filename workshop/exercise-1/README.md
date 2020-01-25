@@ -69,7 +69,7 @@ This lab is broken up into the following steps:
 
 2.1 Set an environment variable for your *studentid* based on your user identifier from the instructor (e.g. **user001**)
 
-```bash
+```
 export STUDENTID=userNNN
 ```
 2.2 Create a new OpenShift project for this lab

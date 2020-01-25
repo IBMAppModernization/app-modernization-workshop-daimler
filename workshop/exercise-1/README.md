@@ -26,7 +26,7 @@ The **stock-quote** service queries an external service to get real time stock q
 
 This lab is broken up into the following steps:
 
-1. [Logon into the OpenShift Web Console and to the OpenShift CLI](#step-1-login-to-the-openshift-web-console-and-to-the-openshift-cli)
+1. [Login to the OpenShift Web Console and to the OpenShift CLI](#step-1-login-to-the-openshift-web-console-and-to-the-openshift-cli)
 
 1. [Create a new project for the lab](#step-2-create-a-new-project-for-the-lab)
 
@@ -43,7 +43,7 @@ This lab is broken up into the following steps:
 1. [Summary](#summary)
 
 
-### Step 1: Login to the OpenShift Web Console and to the OpenShift CLI
+## Step 1: Login to the OpenShift Web Console and to the OpenShift CLI
 
 1.1 In your browser go to the URL of  the OpenShift web console given to you by your instructor.
 
@@ -65,7 +65,7 @@ This lab is broken up into the following steps:
 
 1.8 Paste the login command in a terminal window and run it (Note: leave the web console browser tab open as you'll need it later on in the lab)
 
-### Step 2: Create a new project for the lab
+## Step 2: Create a new project for the lab
 
 2.1 Set an environment variable for your *studentid* based on your user identifier from the instructor (e.g. **user001**)
 
@@ -78,7 +78,7 @@ This lab is broken up into the following steps:
     oc new-project mcsvcs-$STUDENTID
    ```
 
-### Step 3: Prepare for installation
+## Step 3: Prepare for installation
 
 Like a typical  Kubernetes app, Stock Trader use secrets and ConfigMaps to store information needed by one  or more microservices to access external  services and other microservices. We've  provided that info in a file hosted in Cloud Storage and there is a script that you'll use to retrieve it.
 
@@ -115,7 +115,7 @@ Like a typical  Kubernetes app, Stock Trader use secrets and ConfigMaps to store
 
 3.4 Also verify that there is now a file called **variables.sh** in the current folder
 
-### Step 4: Install all the prerequisites
+## Step 4: Install all the prerequisites
 
 In this part  you'll install the prereqs step by step before installing the Stock Trader application.
 
@@ -189,7 +189,7 @@ In this part  you'll install the prereqs step by step before installing the Stoc
   mongodb           ClusterIP      172.30.235.11   <none>
   ```
 
-### Step 5: Install the StockTrader app
+## Step 5: Install the StockTrader app
 
 In this part  you'll install all the Stock Trader microservices using a template  for all the microservices. Note that all the  microservices require some of the information stored via secrets in the scripts you ran in the previous section.
 

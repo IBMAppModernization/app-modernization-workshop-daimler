@@ -14,18 +14,18 @@ The introductory page of the workshop is broken down into the following sections
 
 ## Agenda
 
-|   |   |
-| - | - |
-| Lecture | Introduction |
-| Lecture | Docker & Kubernetes Overview & Demo |
-| Lecture | Microservices – Principles, Patterns and Implementation |
-| Pre-work | [Verifying access to WeTTy, OpenShift 4 and IBM Cloud Transformation Advisor](pre-work/README.md)  |
-| Hands on Lab | [Deploy Microservice Application](db-connection-and-virtualization/README.md)
-| Lecture | 12 Factor Apps – Methodology Overview and Common Violations in classic JEE applications |
-| Lecture | Application Modernization & Migration Approaches |
-| Hands on Lab | [Run Transformation Advisor against WebSphere app](exercise-1/README.md) |
-| Lecture | Load Balancing JaveEE Apps in OpenShift |
-|  Hands on Lab | [Load Balancing JEE Apps – HttpSession Replication in Openshift](machine-learning-in-jupyter-notebook/README.md)
+|  Agenda |
+| - |
+| Lecture: Introduction |
+| Lecture: Docker & Kubernetes Overview & Demo |
+| Lecture: Microservices – Principles, Patterns and Implementation |
+| Pre-work: [Verifying access to WeTTy, OpenShift 4 and IBM Cloud Transformation Advisor](pre-work/README.md)  |
+| Hands on Lab: Deploy Microservice Application](db-connection-and-virtualization/README.md)
+| Lecture: 12 Factor Apps – Methodology Overview and Common Violations in classic JEE applications |
+| Lecture: Application Modernization & Migration Approaches |
+| Hands on Lab: [Run Transformation Advisor against WebSphere app](exercise-1/README.md) |
+| Lecture: Load Balancing JaveEE Apps in OpenShift |
+|  Hands on Lab: [Load Balancing JEE Apps – HttpSession Replication in Openshift](machine-learning-in-jupyter-notebook/README.md)
 
 
 ## Compatibility

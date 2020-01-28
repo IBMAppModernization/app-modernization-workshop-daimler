@@ -16,15 +16,15 @@ The introductory page of the workshop is broken down into the following sections
 
 |  Agenda |
 | - |
-| Lecture: Introduction |
-| Lecture: Docker & Kubernetes Overview & Demo |
-| Lecture: Microservices – Principles, Patterns and Implementation |
+| [Lecture: Introduction](https://ibm.box.com/s/m0j3rh23hqdocp16f6388cc6qelu19wa) |
+| [Lecture: Docker & Kubernetes Overview & Demo](https://ibm.box.com/s/882r368rk8k3hq8nmk37gugkw5mtn4c0) |
+| [Lecture: Microservices – Principles, Patterns and Implementation](https://ibm.box.com/s/fajeb3hwsb1qk44b4l8ttowp0s2vbfvt) |
 | [Pre-work: Verifying access to WeTTy, OpenShift 4 and IBM Cloud Transformation Advisor](exercise-0/README.md)  |
 | [Hands on Lab: Deploy Microservice Application](exercise-1/README.md)
-| Lecture: 12 Factor Apps – Methodology Overview and Common Violations in classic JEE applications |
-| Lecture: Application Modernization & Migration Approaches |
+| [Lecture: 12 Factor Apps – Methodology Overview and Common Violations in classic JEE applications](https://ibm.box.com/s/uzq2l30d85mucfd29aiucc2fyxxelxoq) |
+| [Lecture: Application Modernization & Migration Approaches](https://ibm.box.com/s/9uddrywgwp1y2d0r7ouq5kvuwge889de) |
 | [Hands on Lab: Run Transformation Advisor against WebSphere app](exercise-2/README.md) |
-| Lecture: Load Balancing JaveEE Apps in OpenShift |
+| [Lecture: Load Balancing JaveEE Apps in OpenShift](https://ibm.box.com/s/s0r7qvyxdjs8iih6formt5hjwa98ofgf) |
 | [Hands on Lab: Load Balancing JEE Apps – HttpSession Replication in Openshift](exercise-3/README.md)
 
 

@@ -131,7 +131,6 @@ Run the following commands to cleanup (note: you can copy all the commands at on
    ```bash
    oc delete svc,dc,route,is simple-http-session-app
    oc delete svc,dc,is infinispan-server
-   oc delete is open-liberty
    ```
 
 ## Summary
